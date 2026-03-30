@@ -1,4 +1,4 @@
-const BASE_URL = 'https://itx-frontend-test.onrender.com/api';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const CACHE_KEY_PREFIX = 'gadget_store_cache_';
 const CACHE_EXPIRATION_MS = 60 * 60 * 1000; // 1 hour
 
@@ -17,7 +17,7 @@ const fetchWithCache = async (endpoint) => {
   console.log(`Fetching from API: ${endpoint}`);
   const response = await fetch(`${BASE_URL}${endpoint}`);
   if (!response.ok) throw new Error('API request failed');
-  
+
   const data = await response.json();
   localStorage.setItem(cacheKey, JSON.stringify({
     data,
@@ -49,7 +49,7 @@ export const addToCart = async (productId, colorCode, storageCode) => {
   });
 
   if (!response.ok) throw new Error('Failed to add to cart');
-  
+
   const data = await response.json();
   // The API returns the number of products that were added? 
   // Document says "returns the number of products in the basket".
